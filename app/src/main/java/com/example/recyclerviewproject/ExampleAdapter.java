@@ -1,10 +1,15 @@
 package com.example.recyclerviewproject;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +19,7 @@ import java.util.ArrayList;
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     private ArrayList<ExampleItem> mExampleList;
     private OnItemClickListener mListener;
+    Activity activity;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -64,7 +70,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         }
     }
 
-    public ExampleAdapter(ArrayList<ExampleItem> exampleList) {
+    public ExampleAdapter(MainActivity mainActivity, ArrayList<ExampleItem> exampleList) {
         mExampleList = exampleList;
     }
 
@@ -82,6 +88,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         holder.mImageView.setImageResource(currentItem.getImageResource());
         holder.mTextView1.setText(currentItem.getText1());
         holder.mTextView2.setText(currentItem.getText2());
+
     }
 
     @Override

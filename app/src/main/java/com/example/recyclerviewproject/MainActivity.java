@@ -1,15 +1,24 @@
 package com.example.recyclerviewproject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleItem> mExampleList;
@@ -22,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonRemove;
     private EditText editTextInsert;
     private EditText editTextRemove;
+    ExampleAdapter adapter;
+    Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +41,32 @@ public class MainActivity extends AppCompatActivity {
 
         createExampleList();
         buildRecyclerView();
-        setButtons();
-    }
+        adapter = new ExampleAdapter(this, mExampleList);
 
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull  RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull  RecyclerView.ViewHolder viewHolder, int direction) {
+
+                mExampleList.remove(viewHolder.getAdapterPosition());
+
+                mAdapter.notifyDataSetChanged();
+            }
+        }).attachToRecyclerView(mRecyclerView);
+    }
+    
+    public void click(View v){
+
+        mExampleList.add( new ExampleItem(R.drawable.ic_android, "New Item At Position" , "This is Line 2"));
+        mAdapter.notifyDataSetChanged();
+        mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
+
+
+    }
     public void insertItem(int position) {
         mExampleList.add(position, new ExampleItem(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
         mAdapter.notifyItemInserted(position);
@@ -59,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new com.example.recyclerviewproject.ExampleAdapter(mExampleList);
+        mAdapter = new com.example.recyclerviewproject.ExampleAdapter(this, mExampleList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -67,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new com.example.recyclerviewproject.ExampleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+
                 changeItem(position, "Clicked");
+
             }
 
             @Override
@@ -77,11 +113,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void setButtons() {
-        buttonInsert = findViewById(R.id.button_insert);
-        buttonRemove = findViewById(R.id.button_remove);
-        editTextInsert = findViewById(R.id.edittext_insert);
-        editTextRemove = findViewById(R.id.edittext_remove);
+    /*public void setButtons() {
+        buttonInsert = findViewById(R.id.floatingActionButton);
 
         buttonInsert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,5 +131,35 @@ public class MainActivity extends AppCompatActivity {
                 removeItem(position);
             }
         });
+    }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item1:
+                Toast.makeText(this, "Item 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                Toast.makeText(this, "Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this, "Item 3 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem1:
+                Toast.makeText(this, "Sub Item 1 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.subitem2:
+                Toast.makeText(this, "Sub Item 2 selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
