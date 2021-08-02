@@ -2,6 +2,7 @@ package com.example.recyclerviewproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 
 import java.util.ArrayList;
 
@@ -33,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextRemove;
     ExampleAdapter adapter;
     Activity activity;
+    TextView tvPython, tvCPP, tvJava;
+    PieChart pieChart;
+    EditText tvR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
     public void insertItem(int position) {
         mExampleList.add(position, new ExampleItem(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
         mAdapter.notifyItemInserted(position);
@@ -103,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(int position) {
 
                 changeItem(position, "Clicked");
+                Intent intent = new Intent (MainActivity.this, MainActivity2.class);
+                startActivity(intent);
 
             }
 
