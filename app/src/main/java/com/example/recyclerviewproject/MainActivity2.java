@@ -1,7 +1,13 @@
 package com.example.recyclerviewproject;
 
 // Import the required libraries
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +19,8 @@ import com.example.recyclerviewproject.R;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.util.ArrayList;
+
 public class MainActivity2
         extends AppCompatActivity {
 
@@ -20,8 +28,13 @@ public class MainActivity2
     // and PieChart class
     TextView  tvPython, tvCPP, tvJava;
     PieChart pieChart;
-    EditText tvR;
+    EditText edittext;
+    private RecyclerView mRecyclerView;
+    private com.example.recyclerviewproject.CategoryAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<CategoryItem> diffExampleList;
 
+    CategoryAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,17 +45,78 @@ public class MainActivity2
         // Link those objects with their
         // respective id's that
         // we have given in .XML file
-        tvR = findViewById(R.id.tvR);
-        tvPython = findViewById(R.id.tvPython);
-        tvCPP = findViewById(R.id.tvCPP);
-        tvJava = findViewById(R.id.tvJava);
+
         pieChart = findViewById(R.id.piechart);
 
         // Creating a method setData()
         // to set the text in text view and pie chart
-        setData();
-        
+        //setData();
+        createExampleList();
+        buildRecyclerView();
+        adapter = new CategoryAdapter(this, diffExampleList);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView2, @NonNull  RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull  RecyclerView.ViewHolder viewHolder, int direction) {
+
+                diffExampleList.remove(viewHolder.getAdapterPosition());
+
+                mAdapter.notifyDataSetChanged();
+            }
+        }).attachToRecyclerView(mRecyclerView);
     }
+
+    public void click(View v){
+
+        diffExampleList.add( new CategoryItem( "New Category" , "0"));
+        mAdapter.notifyDataSetChanged();
+        mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView2);
+
+
+    }
+
+
+
+    public void insertItem(int position) {
+        diffExampleList.add(position, new CategoryItem( "New Item At Position" + position, "0"));
+        mAdapter.notifyItemInserted(position);
+    }
+
+    public void removeItem(int position) {
+        diffExampleList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+    }
+
+    public void changeItem(int position, String text) {
+        diffExampleList.get(position).changeText2(text);
+        mAdapter.notifyItemChanged(position);
+    }
+
+    public void createExampleList() {
+        diffExampleList = new ArrayList<>();
+        diffExampleList.add(new CategoryItem( "Category 1", "100"));
+        diffExampleList.add(new CategoryItem( "Category 2", "100"));
+        diffExampleList.add(new CategoryItem( "Category 3", "100"));
+        diffExampleList.add(new CategoryItem( "Category 4", "100"));
+    }
+
+    public void buildRecyclerView() {
+        mRecyclerView = findViewById(R.id.recyclerView2);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new com.example.recyclerviewproject.CategoryAdapter(this, diffExampleList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+    }
+
 
     
 
@@ -50,64 +124,24 @@ public class MainActivity2
     {
 
         // Set the percentage of language used
-        tvR.setText(Integer.toString(0));
-        tvPython.setText(Integer.toString(0));
-        tvCPP.setText(Integer.toString(0));
-        tvJava.setText(Integer.toString(0));
-
-        // Set the data and color to the pie chart
+        edittext.setText(Integer.toString(100));
 
 
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Category 1",
-                        Integer.valueOf(tvR.getText().toString()),
-                        Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.valueOf(tvPython.getText().toString()),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt(tvCPP.getText().toString()),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt(tvJava.getText().toString()),
-                        Color.parseColor("#29B6F6")));
 
-        // To animate the pie chart
-        pieChart.startAnimation();
+
 
     }
 
     public void datachange (View v){
 
-
+        pieChart.clearChart();
 
         pieChart.addPieSlice(
                 new PieModel(
                         "R",
-                        Integer.parseInt(tvR.getText().toString()),
+                        Integer.parseInt(edittext.getText().toString()),
                         Color.parseColor("#FFA726")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Python",
-                        Integer.parseInt(tvPython.getText().toString()),
-                        Color.parseColor("#66BB6A")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "C++",
-                        Integer.parseInt(tvCPP.getText().toString()),
-                        Color.parseColor("#EF5350")));
-        pieChart.addPieSlice(
-                new PieModel(
-                        "Java",
-                        Integer.parseInt(tvJava.getText().toString()),
-                        Color.parseColor("#29B6F6")));
+
 
         // To animate the pie chart
         pieChart.startAnimation();

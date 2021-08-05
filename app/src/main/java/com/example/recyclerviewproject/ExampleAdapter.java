@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.recyclerviewproject.ExampleItem;
+import com.example.recyclerviewproject.R;
 
+import java.util.ArrayList;
 
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     private ArrayList<ExampleItem> mExampleList;

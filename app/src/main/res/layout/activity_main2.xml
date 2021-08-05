@@ -142,180 +142,6 @@
     </androidx.cardview.widget.CardView>
 
 
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="265dp"
-        android:layout_below="@+id/cardViewGraph"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:elevation="10dp"
-        app:cardCornerRadius="10dp"
-        android:id="@+id/details">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="20dp"
-                android:text="Monthly Breakdown of Your Finances($):"
-                android:textSize="23sp"
-                android:textStyle="bold" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Category 1"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/tvR"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textAlignment="textEnd"
-                    android:inputType="number"
-                    android:ems="10"/>
-
-
-            </RelativeLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Category 2"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/tvPython"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textAlignment="textEnd"
-                    android:inputType="number"
-                    android:ems="10"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Category 3"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/tvCPP"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textAlignment="textEnd"
-                    android:inputType="number"
-                    android:ems="10"/>
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Category 4"
-                    android:textSize="18sp" />
-
-
-                <EditText
-                    android:id="@+id/tvJava"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:textAlignment="textEnd"
-                    android:inputType="number"
-                    android:ems="10"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
     <EditText
         android:id="@+id/BudgetTitle"
         android:layout_width="wrap_content"
@@ -324,7 +150,9 @@
         android:layout_marginLeft="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name" />
+        android:text="Name"
+
+        android:textColor="@color/black"/>
 
     <Button
         android:id="@+id/button2"
@@ -340,6 +168,31 @@
         android:layout_marginRight="18dp"
         android:drawableLeft="@android:drawable/arrow_up_float"
         android:onClick="datachange"
-        android:text="Refresh" />
+        android:text="Refresh"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView2"
+        android:layout_width="match_parent"
+        android:layout_height="433dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="298dp"
+        android:layout_marginBottom="0dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:onClick="click"
+        app:srcCompat="@android:drawable/ic_input_add" />
+    --android:textSize=""
+
 
 </RelativeLayout>

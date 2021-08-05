@@ -27,20 +27,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleItem> mExampleList;
-
+    private ArrayList<CategoryItem> diffExampleList;
     private RecyclerView mRecyclerView;
     private com.example.recyclerviewproject.ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private Button buttonInsert;
-    private Button buttonRemove;
-    private EditText editTextInsert;
-    private EditText editTextRemove;
+
     ExampleAdapter adapter;
-    Activity activity;
-    TextView tvPython, tvCPP, tvJava;
-    PieChart pieChart;
-    EditText tvR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(mRecyclerView);
     }
-    
+
     public void click(View v){
 
         mExampleList.add( new ExampleItem(R.drawable.ic_android, "New Item At Position" , "This is Line 2"));
