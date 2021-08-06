@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleItem> mExampleList;
-    private ArrayList<CategoryItem> diffExampleList;
+    
     private RecyclerView mRecyclerView;
     private com.example.recyclerviewproject.ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

@@ -1,146 +1,153 @@
 package com.example.recyclerviewproject;
 
-// Import the required libraries
+import android.graphics.Color;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.example.recyclerviewproject.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
-import java.util.ArrayList;
 
-public class MainActivity2
-        extends AppCompatActivity {
+public class MainActivity2 extends AppCompatActivity implements View.OnClickListener {
 
-    // Create the object of TextView
-    // and PieChart class
-    TextView  tvPython, tvCPP, tvJava;
+
+
+
+    ArrayList<String> colors;
+    EditText edtInput;
     PieChart pieChart;
-    EditText edittext;
-    private RecyclerView mRecyclerView;
-    private com.example.recyclerviewproject.CategoryAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<CategoryItem> diffExampleList;
-
-    CategoryAdapter adapter;
+    private ListView itemsListView;
+    private List<String> items;
+    private EditItemsAdapter adapter;
+    RecyclerView editItemsRecyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        // Link those objects with their
-        // respective id's that
-        // we have given in .XML file
+        colors = new ArrayList<String>(16);
+        colors.add("#39add1");
+        colors.add("#3079ab");
+        colors.add("#c25975");
+        colors.add("#e15258");
+        colors.add("#f9845b");
+        colors.add("#838cc7");
+        colors.add("#7d669e");
+        colors.add("#53bbb4");
+        colors.add("#51b46d");
+        colors.add("#e0ab18");
+        colors.add("#f092b0");
 
-        pieChart = findViewById(R.id.piechart);
+        items = new ArrayList<>(16);
+        edtInput = (EditText) findViewById(R.id.edtInput);
 
-        // Creating a method setData()
-        // to set the text in text view and pie chart
-        //setData();
-        createExampleList();
-        buildRecyclerView();
-        adapter = new CategoryAdapter(this, diffExampleList);
+        /*
+        edtInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                pieChart = (PieChart) findViewById(R.id.piechart);
+                pieChart.addPieSlice(
+                        new PieModel(
+                                "R",
+                                Integer.parseInt(edtInput.getText().toString()),
+                                Color.parseColor("#FFA726")));
+            }
+        })*/
+
+        setupViews();
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView2, @NonNull  RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull  RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
             public void onSwiped(@NonNull  RecyclerView.ViewHolder viewHolder, int direction) {
 
-                diffExampleList.remove(viewHolder.getAdapterPosition());
+                items.remove(viewHolder.getAdapterPosition());
 
-                mAdapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
-        }).attachToRecyclerView(mRecyclerView);
+        }).attachToRecyclerView(editItemsRecyclerView);
     }
 
-    public void click(View v){
+    private void setupViews() {
 
-        diffExampleList.add( new CategoryItem( "New Category" , "0"));
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView2);
+        Objects.requireNonNull(items);
 
+        itemsListView = findViewById(R.id.main_itemsListView);
 
+        editItemsRecyclerView = findViewById(R.id.main_editItemsRecyclerView);
+
+        FloatingActionButton floatingActionButton = findViewById(R.id.main_floatingActionButton);
+
+        setupAdapter(editItemsRecyclerView, floatingActionButton);
     }
 
+    private void setupAdapter(
+            RecyclerView editItemsRecyclerView,
+            FloatingActionButton floatingActionButton
+    ) {
+        adapter = new EditItemsAdapter(items, this::onItemUpdate);
 
+        editItemsRecyclerView.setAdapter(adapter);
 
-    public void insertItem(int position) {
-        diffExampleList.add(position, new CategoryItem( "New Item At Position" + position, "0"));
-        mAdapter.notifyItemInserted(position);
-    }
+        editItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    public void removeItem(int position) {
-        diffExampleList.remove(position);
-        mAdapter.notifyItemRemoved(position);
-    }
-
-    public void changeItem(int position, String text) {
-        diffExampleList.get(position).changeText2(text);
-        mAdapter.notifyItemChanged(position);
-    }
-
-    public void createExampleList() {
-        diffExampleList = new ArrayList<>();
-        diffExampleList.add(new CategoryItem( "Category 1", "100"));
-        diffExampleList.add(new CategoryItem( "Category 2", "100"));
-        diffExampleList.add(new CategoryItem( "Category 3", "100"));
-        diffExampleList.add(new CategoryItem( "Category 4", "100"));
-    }
-
-    public void buildRecyclerView() {
-        mRecyclerView = findViewById(R.id.recyclerView2);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new com.example.recyclerviewproject.CategoryAdapter(this, diffExampleList);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-
+        floatingActionButton.setOnClickListener(this);
     }
 
 
-    
-
-    private void setData()
-    {
-
-        // Set the percentage of language used
-        edittext.setText(Integer.toString(100));
-
-
-
-
-
-    }
 
     public void datachange (View v){
-
+        pieChart = (PieChart)findViewById(R.id.piechart);
         pieChart.clearChart();
 
-        pieChart.addPieSlice(
-                new PieModel(
-                        "R",
-                        Integer.parseInt(edittext.getText().toString()),
-                        Color.parseColor("#FFA726")));
+        for (int i = 0; i < items.size(); i++) {
+
+            // Print all elements of List
+
+            pieChart.addPieSlice(
+                    new PieModel(
+                            "R",
+                            Integer.parseInt(String.valueOf(items.get(i))),
+                            Color.parseColor(colors.get(i))));
+        }
+
+
 
 
         // To animate the pie chart
@@ -148,6 +155,26 @@ public class MainActivity2
 
     }
 
+    private void onItemUpdate() {
 
+        itemsListView.setAdapter(
+                new ArrayAdapter<>(
+                        this,
+                        android.R.layout.simple_list_item_1,
+                        android.R.id.text1,
+                        items
+                )
+        );
 
+    }
+
+    @Override
+    public void onClick(@Nullable View v) {
+
+        items.add("");
+
+        adapter.notifyItemAdded();
+
+        onItemUpdate();
+    }
 }
