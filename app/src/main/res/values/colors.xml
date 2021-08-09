@@ -16,4 +16,9 @@
     <color name="Python">#66BB6A</color>
     <color name="CPP">#EF5350</color>
     <color name="Java">#29B6F6</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorWhite">#FFF</color>
+    <color name="colorBlack">#000</color>
 </resources>

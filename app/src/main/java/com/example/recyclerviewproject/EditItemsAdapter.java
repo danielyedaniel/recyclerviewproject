@@ -17,6 +17,7 @@ import java.util.List;
 
 public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.ItemViewHolder> {
 
+    private static TextInputLayout inputLayout;
     private final List<String> items;
 
     private final Runnable onUpdate;
@@ -24,6 +25,7 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
     public EditItemsAdapter(@NonNull List<String> items, @NonNull Runnable onUpdate)  {
         this.items = items;
         this.onUpdate = onUpdate;
+        this.inputLayout = inputLayout;
     }
 
     @NonNull
@@ -45,6 +47,9 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
         holder.bind(position, item);
     }
 
+    public static void setLayout(String name){
+        inputLayout.setHint(name);
+    }
     @Override
     public int getItemCount() {
         return items.size();
@@ -58,9 +63,13 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
 
         private final EditText editText;
 
-        private final TextInputLayout inputLayout;
+        public  final TextInputLayout inputLayout;
 
         private TextWatcher textWatcher;
+
+        public  void setLayout (String name){
+            inputLayout.setHint(name);
+        }
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,8 +105,9 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
 
             editText.addTextChangedListener(textWatcher);
 
-            inputLayout.setHint("Category " + (position + 1));
+            inputLayout.setHint(".");
             editText.setText(item);
         }
     }
+
 }

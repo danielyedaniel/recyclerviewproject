@@ -1,13 +1,19 @@
 package com.example.recyclerviewproject;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.recyclerviewproject.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +41,8 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
 
-
+    FloatingActionButton openDialog;
+    TextView infoTv;
     ArrayList<String> colors;
     EditText edtInput;
     PieChart pieChart;
@@ -64,28 +72,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         items = new ArrayList<>(16);
         edtInput = (EditText) findViewById(R.id.edtInput);
 
-        /*
-        edtInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                pieChart = (PieChart) findViewById(R.id.piechart);
-                pieChart.addPieSlice(
-                        new PieModel(
-                                "R",
-                                Integer.parseInt(edtInput.getText().toString()),
-                                Color.parseColor("#FFA726")));
-            }
-        })*/
 
         setupViews();
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
@@ -102,7 +89,42 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 adapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(editItemsRecyclerView);
+
+        openDialog = findViewById(R.id.main_floatingActionButton);
+
+
+        openDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCustomDialog();
+            }
+        });
     }
+
+    void showCustomDialog() {
+        final Dialog dialog = new Dialog(MainActivity2.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.custom_dialog);
+
+        final EditText nameEt = dialog.findViewById(R.id.name_et);
+        Button submitButton = dialog.findViewById(R.id.submit_button);
+
+
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEt.getText().toString();
+                
+                EditItemsAdapter.setLayout(name);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 
     private void setupViews() {
 
