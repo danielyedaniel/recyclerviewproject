@@ -6,8 +6,8 @@
         android:title="Settings" />
 
     <item
-        android:id="@+id/kotlin"
-        android:title="Kotlin" />
+        android:id="@+id/faq"
+        android:title="faq" />
 
     <item
         android:id="@+id/android"

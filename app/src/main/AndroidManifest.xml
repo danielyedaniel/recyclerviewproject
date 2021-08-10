@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Recyclerviewproject">
-        <activity android:name=".Settings"></activity>
+        <activity
+            android:name=".Settings"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity2"
             android:parentActivityName=".MainActivity" />
