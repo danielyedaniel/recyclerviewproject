@@ -17,11 +17,11 @@ import java.util.List;
 
 public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.ItemViewHolder> {
 
-    private final List<String> items;
+    private final List<Model> items;
 
     private final Runnable onUpdate;
 
-    public EditItemsAdapter(@NonNull List<String> items, @NonNull Runnable onUpdate)  {
+    public EditItemsAdapter(@NonNull List<Model> items, @NonNull Runnable onUpdate)  {
         this.items = items;
         this.onUpdate = onUpdate;
     }
@@ -40,9 +40,10 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
 
-        String item = items.get(position);
+        Model item = items.get(position);
 
-        holder.bind(position, item);
+//        holder.bind(position, item);
+        holder.inputLayout.setHint(item.hint);
     }
 
     @Override
@@ -69,35 +70,35 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
             inputLayout = itemView.findViewById(R.id.editItemRow_inputLayout);
         }
 
-        public void bind(int position, @NonNull String item) {
-
-            if (textWatcher != null) {
-                editText.removeTextChangedListener(textWatcher);
-            }
-
-            // i didn't see any "update chart" button in you screenshots, so I assume
-            // you update things using a textChangedListener
-
-            textWatcher = new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-                @Override
-                public void afterTextChanged(Editable text) {
-
-                    items.set(position, text.toString());
-
-                    onUpdate.run();
-                }
-            };
-
-            editText.addTextChangedListener(textWatcher);
-
-            inputLayout.setHint("Category " + (position + 1));
-            editText.setText(item);
-        }
+//        public void bind(int position, @NonNull Model item) {
+//
+//            if (textWatcher != null) {
+//                editText.removeTextChangedListener(textWatcher);
+//            }
+//
+//            // i didn't see any "update chart" button in you screenshots, so I assume
+//            // you update things using a textChangedListener
+//
+//            textWatcher = new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+//
+//                @Override
+//                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+//
+//                @Override
+//                public void afterTextChanged(Editable text) {
+//
+//                    items.set(position, text.toString());
+//
+//                    onUpdate.run();
+//                }
+//            };
+//
+//            editText.addTextChangedListener(textWatcher);
+//
+//            inputLayout.setHint("Category " + (position + 1));
+//            editText.setText(item);
+//        }
     }
 }

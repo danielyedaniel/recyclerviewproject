@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
             android:inputType="number"
-            android:ems="10"/>
+            android:ems="10"
+            android:gravity="start" />
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

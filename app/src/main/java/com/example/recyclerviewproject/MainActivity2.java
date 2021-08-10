@@ -1,5 +1,6 @@
 package com.example.recyclerviewproject;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,9 +40,10 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     EditText edtInput;
     PieChart pieChart;
     private ListView itemsListView;
-    private List<String> items;
+    private List<Model> items;
     private EditItemsAdapter adapter;
     RecyclerView editItemsRecyclerView;
+    private EditText EditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -171,10 +173,21 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(@Nullable View v) {
 
-        items.add("");
 
-        adapter.notifyItemAdded();
+        Dialog d = new Dialog(this);
+        d.show();
+        d.setContentView(R.layout.cd);
+        EditText = d.findViewById(R.id.cd_editText);
 
-        onItemUpdate();
+        d.findViewById(R.id.cd_button).setOnClickListener(v1 -> {
+            d.dismiss();
+            Toast.makeText(this, EditText.getText().toString(), Toast.LENGTH_SHORT).show();
+            items.add(new Model(EditText.getText().toString()));
+
+            adapter.notifyItemAdded();
+
+            onItemUpdate();
+        });
+
     }
 }
