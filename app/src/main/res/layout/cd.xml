@@ -11,13 +11,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="cate"
+        android:hint="Category"
+        android:maxEms="35"
         android:id="@+id/cd_editText"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cd_button"
-        android:text="okkk"
+        android:text="Submit"
         android:backgroundTint="@color/white"
         android:textColor="@color/black"/>
 </LinearLayout>

@@ -128,7 +128,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         setupAdapter(editItemsRecyclerView, floatingActionButton);
     }
-
+//
     private void setupAdapter(
             RecyclerView editItemsRecyclerView,
             FloatingActionButton floatingActionButton
