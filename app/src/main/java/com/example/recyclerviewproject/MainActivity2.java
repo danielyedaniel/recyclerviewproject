@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -104,6 +105,15 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 adapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(editItemsRecyclerView);
+
+
+        Button data = findViewById(R.id.buttonDataChange);
+        data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datachange();
+            }
+        });
     }
 
     private void setupViews() {
@@ -134,7 +144,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
 
-    public void datachange (View v){
+    public void datachange (){
         pieChart = (PieChart)findViewById(R.id.piechart);
         pieChart.clearChart();
 
@@ -145,7 +155,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             pieChart.addPieSlice(
                     new PieModel(
                             "R",
-                            Integer.parseInt(String.valueOf(items.get(i))),
+                            Integer.parseInt(String.valueOf(items.get(i).getValue())),
                             Color.parseColor(colors.get(i))));
         }
 
@@ -182,7 +192,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         d.findViewById(R.id.cd_button).setOnClickListener(v1 -> {
             d.dismiss();
             Toast.makeText(this, EditText.getText().toString(), Toast.LENGTH_SHORT).show();
-            items.add(new Model(EditText.getText().toString()));
+            items.add(new Model(EditText.getText().toString(),""));
 
             adapter.notifyItemAdded();
 

@@ -14,6 +14,7 @@ import com.example.recyclerviewproject.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+import java.util.Objects;
 
 public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.ItemViewHolder> {
 
@@ -44,6 +45,24 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
 
 //        holder.bind(position, item);
         holder.inputLayout.setHint(item.hint);
+
+
+        Objects.requireNonNull(holder.inputLayout.getEditText()).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                item.setValue(Objects.requireNonNull(holder.inputLayout.getEditText()).getText().toString().trim());
+            }
+        });
     }
 
     @Override
