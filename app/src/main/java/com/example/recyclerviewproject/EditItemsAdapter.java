@@ -107,7 +107,7 @@ public class EditItemsAdapter extends RecyclerView.Adapter<EditItemsAdapter.Item
 
             inputLayout.setHint(".");
             editText.setText(item);
-        }
+     }
     }
 
 }

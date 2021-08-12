@@ -90,18 +90,18 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             }
         }).attachToRecyclerView(editItemsRecyclerView);
 
-        openDialog = findViewById(R.id.main_floatingActionButton);
+        //openDialog = findViewById(R.id.main_floatingActionButton);
 
 
-        openDialog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCustomDialog();
-            }
-        });
+       // openDialog.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+        //    public void onClick(View view) {
+        //        showCustomDialog();
+        //    }
+       // });
     }
 
-    void showCustomDialog() {
+   /* void showCustomDialog() {
         final Dialog dialog = new Dialog(MainActivity2.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(true);
@@ -123,7 +123,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         dialog.show();
     }
-
+*/
 
 
     private void setupViews() {
