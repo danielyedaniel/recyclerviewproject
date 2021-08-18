@@ -1,6 +1,7 @@
 package com.example.recyclerviewproject;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -111,7 +112,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datachange();
+                datachange(v);
             }
         });
     }
@@ -144,7 +145,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
 
-    public void datachange (){
+    public void datachange (View v){
         pieChart = (PieChart)findViewById(R.id.piechart);
         pieChart.clearChart();
 
@@ -165,6 +166,16 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         // To animate the pie chart
         pieChart.startAnimation();
 
+        editName(v);
+
+    }
+
+    public void editName(View arg0) {
+        String message= ((EditText)findViewById(R.id.editName)).getText().toString();
+        Intent intent=new Intent();
+        intent.putExtra("MESSAGE",message);
+        setResult(2,intent);
+        //finish();//finishing activity
     }
 
     private void onItemUpdate() {
@@ -197,7 +208,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             adapter.notifyItemAdded();
 
             onItemUpdate();
+
         });
 
     }
+
 }

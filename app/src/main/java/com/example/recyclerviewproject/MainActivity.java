@@ -60,6 +60,21 @@ public class MainActivity extends AppCompatActivity {
         }).attachToRecyclerView(mRecyclerView);
     }
 
+    //Sets the textview to message from activity2
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode>=0)
+        {
+            String message=data.getStringExtra("MESSAGE");
+            //((TextView)findViewById(R.id.textView4)).setText(message);
+            changeItem(requestCode, message);
+
+        }
+    }
+
     public void click(View v){
 
         mExampleList.add( new ExampleItem(R.drawable.ic_android, "New Item At Position" , "This is Line 2"));
@@ -106,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position) {
 
-                changeItem(position, "Clicked");
+                //changeItem(position, "Clicked");
                 Intent intent = new Intent (MainActivity.this, MainActivity2.class);
-                startActivity(intent);
+                startActivityForResult(intent,position);
 
             }
 

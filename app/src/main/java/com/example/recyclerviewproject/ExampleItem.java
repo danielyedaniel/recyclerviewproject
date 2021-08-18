@@ -1,5 +1,7 @@
 package com.example.recyclerviewproject;
 
+import android.widget.TextView;
+
 public class ExampleItem {
     private int mImageResource;
     private String mText1;
