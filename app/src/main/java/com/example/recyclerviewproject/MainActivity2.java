@@ -4,13 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,14 +19,11 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.recyclerviewproject.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -36,8 +32,8 @@ import org.eazegraph.lib.models.PieModel;
 public class MainActivity2 extends AppCompatActivity implements View.OnClickListener {
 
 
-
-
+    ArrayList<String> totalAmount;
+    TextView total;
     ArrayList<String> colors;
     EditText edtInput;
     PieChart pieChart;
@@ -103,6 +99,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
                 items.remove(viewHolder.getAdapterPosition());
 
+
                 adapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(editItemsRecyclerView);
@@ -129,7 +126,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         setupAdapter(editItemsRecyclerView, floatingActionButton);
     }
-//
+    //
     private void setupAdapter(
             RecyclerView editItemsRecyclerView,
             FloatingActionButton floatingActionButton
@@ -146,7 +143,10 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
     public void datachange (View v){
+        ArrayList<Integer> totalAmount = new ArrayList<>();
+        total = (TextView)findViewById(R.id.totalAmount);
         pieChart = (PieChart)findViewById(R.id.piechart);
+        totalAmount.clear();
         pieChart.clearChart();
 
         for (int i = 0; i < items.size(); i++) {
@@ -158,7 +158,16 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                             "R",
                             Integer.parseInt(String.valueOf(items.get(i).getValue())),
                             Color.parseColor(colors.get(i))));
+            totalAmount.add(Integer.valueOf(items.get(i).getValue()));
         }
+
+
+
+        int sum = 0;
+        for(int i = 0; i < totalAmount.size(); i++)
+            sum += totalAmount.get(i);
+
+        total.setText(Integer.toString(sum));
 
 
 
@@ -168,6 +177,16 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         editName(v);
 
+
+
+    }
+
+    public String sum(){
+
+        String sum = "10";
+        for(int i = 0; i < totalAmount.size(); i++)
+            sum += String.valueOf(totalAmount.get(i));
+        return sum;
     }
 
     public void editName(View arg0) {
