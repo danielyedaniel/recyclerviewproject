@@ -64,20 +64,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);//note: requestCode=position
         // check if the request code is same as what is passed  here it is 2
         if(requestCode>=0)
         {
             String message=data.getStringExtra("MESSAGE");
-            //((TextView)findViewById(R.id.textView4)).setText(message);
+            String budget=data.getStringExtra("BUDGET");
+            //((TextView)findViewById(R.id.textView2)).setText(message);
             changeItem(requestCode, message);
+            //changeItem(requestCode, budget);
+            mExampleList.set(requestCode, new ExampleItem(R.drawable.ic_android, message, "$" + budget));
+
 
         }
     }
 
     public void click(View v){
 
-        mExampleList.add( new ExampleItem(R.drawable.ic_android, "New Item At Position" , "This is Line 2"));
+        int listSize = mAdapter.getItemCount() + 1;
+        mExampleList.add( new ExampleItem(R.drawable.ic_android, "Budget " + listSize, "$0"));
         mAdapter.notifyDataSetChanged();
         mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
 
@@ -103,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void createExampleList() {
         mExampleList = new ArrayList<>();
-        mExampleList.add(new ExampleItem(R.drawable.ic_android, "Line 1", "Line 2"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Line 3", "Line 4"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Line 5", "Line 6"));
+        mExampleList.add(new ExampleItem(R.drawable.ic_android, "Budget 1", "$0"));
+        mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Budget 2", "$0"));
+        mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Budget 3", "$0"));
     }
 
     public void buildRecyclerView() {

@@ -191,8 +191,10 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
     public void editName(View arg0) {
         String message= ((EditText)findViewById(R.id.editName)).getText().toString();
+        String budget= ((TextView)findViewById(R.id.totalAmount)).getText().toString();
         Intent intent=new Intent();
         intent.putExtra("MESSAGE",message);
+        intent.putExtra("BUDGET",budget);
         setResult(2,intent);
         //finish();//finishing activity
     }
