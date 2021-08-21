@@ -112,6 +112,12 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 datachange(v);
             }
         });
+
+        Intent i = getIntent();
+        String title = i.getStringExtra("TITLE");
+        //String test = "test";
+        ((TextView)findViewById(R.id.editName)).setText(title);
+        //((TextView)findViewById(R.id.editName)).setText(test);
     }
 
     private void setupViews() {

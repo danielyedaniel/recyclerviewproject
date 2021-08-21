@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
                 //changeItem(position, "Clicked");
                 Intent intent = new Intent (MainActivity.this, MainActivity2.class);
+                String title = mAdapter.getTitle(position);
+                intent.putExtra("TITLE", title);
                 startActivityForResult(intent,position);
 
             }

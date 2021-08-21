@@ -99,5 +99,10 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
         return mExampleList.size();
     }
 
+    public String getTitle(int position){
+        ExampleItem currentItem = mExampleList.get(position);
+        return currentItem.getText1();
+    }
+
 
 }
