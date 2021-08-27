@@ -3,7 +3,9 @@ package com.example.recyclerviewproject;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +51,9 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     private EditItemsAdapter adapter;
     RecyclerView editItemsRecyclerView;
     private EditText EditText;
+    private budget bud;
+    private Bundle extra;
+    private final static String fileName="memory.txt";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,6 +98,12 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                                 Color.parseColor("#FFA726")));
             }
         })*/
+        bud=new budget();
+        extra=getIntent().getExtras();
+        bud.setName(extra.getString("name"));
+        bud.setCostNames(extra.getStringArrayList("costNames"));
+        bud.setCosts(extra.getIntegerArrayList("costs"));
+
 
         setupViews();
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
@@ -107,11 +125,24 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
         Button data = findViewById(R.id.buttonDataChange);
         data.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                datachange(v);
+                try {
+                    datachange(v);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
+        initializeCosts();
+    }
+
+    private void initializeCosts(){
+        for(int i=0;i<bud.getCostNames().size();i++){
+            items.add(new Model(bud.getCostNames().get(i),String.valueOf(bud.getCosts().get(i))));
+        }
+        adapter.notifyItemAdded();
     }
 
     private void setupViews() {
@@ -142,24 +173,44 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
 
-    public void datachange (View v){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void datachange (View v) throws Exception {
+        ArrayList<String> names=new ArrayList<String>();
+        ArrayList<Integer> costs=new ArrayList<Integer>();
+        for(Model a:items){
+            names.add(a.getHint());
+            costs.add(Integer.parseInt(a.getValue()));
+        }
+        try {
+            writeAllText(changeFile(names), fileName);
+        }catch(Exception t){t.printStackTrace();}
+        bud.setCostNames(names);
+        bud.setCosts(costs);
+
         ArrayList<Integer> totalAmount = new ArrayList<>();
         total = (TextView)findViewById(R.id.totalAmount);
         pieChart = (PieChart)findViewById(R.id.piechart);
         totalAmount.clear();
         pieChart.clearChart();
+        try {
+            final FileOutputStream fos=openFileOutput(fileName,MODE_APPEND);
+            for (int i = 0; i < items.size(); i++) {
+                fos.write((bud.getName() + "," + items.get(i).getHint() + "," + items.get(i).getValue()+"\n").getBytes());
 
-        for (int i = 0; i < items.size(); i++) {
+                // Print all elements of List
 
-            // Print all elements of List
-
-            pieChart.addPieSlice(
-                    new PieModel(
-                            "R",
-                            Integer.parseInt(String.valueOf(items.get(i).getValue())),
-                            Color.parseColor(colors.get(i))));
-            totalAmount.add(Integer.valueOf(items.get(i).getValue()));
+                pieChart.addPieSlice(
+                        new PieModel(
+                                "R",
+                                Integer.parseInt(String.valueOf(items.get(i).getValue())),
+                                Color.parseColor(colors.get(i))));
+                totalAmount.add(Integer.valueOf(items.get(i).getValue()));
+            }
+            fos.close();
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
 
 
 
@@ -179,6 +230,39 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
 
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String readAllText(String fileName) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        Files.lines(Paths.get(fileName)).forEach(sb::append);
+        return sb.toString();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String changeFile(ArrayList<String> changes) throws Exception {
+        String file = readAllText(fileName);
+        String[] arr = file.split("\n"); // every arr items is a line now.
+        StringBuilder sb = new StringBuilder();
+        for(String s : arr)
+        {
+            String[] d=s.split(",");
+            if(!d[0].equals(bud.getName())){
+                sb.append(s+"\n");
+            }
+        }
+        return sb.toString(); //new file that does not contains that lines.
+    }
+
+    public void writeAllText(String text, String fileout) {
+        try {
+            final FileOutputStream fos=openFileOutput(fileout,MODE_APPEND);
+            fos.write(text.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String sum(){

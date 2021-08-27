@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder> {
     private ArrayList<ExampleItem> mExampleList;
     private OnItemClickListener mListener;
-    Activity activity;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -76,7 +75,7 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     public ExampleAdapter(MainActivity mainActivity, ArrayList<ExampleItem> exampleList) {
         mExampleList = exampleList;
     }
-    
+
     @Override
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.example_item, parent, false);
@@ -97,5 +96,8 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     @Override
     public int getItemCount() {
         return mExampleList.size();
+    }
+    public ExampleItem getItem(int position) {
+        return mExampleList.get(position);
     }
 }

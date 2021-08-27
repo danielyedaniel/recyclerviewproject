@@ -8,12 +8,13 @@
     android:orientation="vertical"
     android:layout_margin="25dp"
     android:layout_centerInParent="true">
+
     <EditText
+        android:id="@+id/cd_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category"
-        android:maxEms="35"
-        android:id="@+id/cd_editText"/>
+        android:hint="Name"
+        android:maxEms="35" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

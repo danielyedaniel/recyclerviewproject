@@ -1,9 +1,12 @@
 package com.example.recyclerviewproject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.ScriptGroup;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,15 +25,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<ExampleItem> mExampleList;
+    private ArrayList<budget> budgets;
     
     private RecyclerView mRecyclerView;
     private com.example.recyclerviewproject.ExampleAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private final static String fileName="memory.txt";
 
 
     ExampleAdapter adapter;
@@ -39,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        budgets=new ArrayList<budget>();
         createExampleList();
+        readData();
         buildRecyclerView();
         adapter = new ExampleAdapter(this, mExampleList);
 
@@ -76,20 +91,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void click(View v){
+        Dialog d = new Dialog(this);
+        d.show();
+        d.setContentView(R.layout.cd);
+        EditText e= d.findViewById(R.id.cd_editText);
+        try {
+            final FileOutputStream fos=openFileOutput(fileName,MODE_APPEND);
 
-        mExampleList.add( new ExampleItem(R.drawable.ic_android, "New Item At Position" , "This is Line 2"));
-        mAdapter.notifyDataSetChanged();
-        mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
 
+        d.findViewById(R.id.cd_button).setOnClickListener(v1 -> {
+            Toast.makeText(this, e.getText().toString(), Toast.LENGTH_SHORT).show();
+            try {
+                String info="newBudget,"+e.getText().toString()+"\n";
+                fos.write(info.getBytes());
+                fos.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+            mExampleList.add( new ExampleItem(R.drawable.ic_android, e.getText().toString() , "This is Line 2"));
+            d.dismiss();
+            mAdapter.notifyDataSetChanged();
+            mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
+
+        });
+    }catch (Exception r){
+            r.printStackTrace();
 
     }
-
-
-
-    public void insertItem(int position) {
-        mExampleList.add(position, new ExampleItem(R.drawable.ic_android, "New Item At Position" + position, "This is Line 2"));
-        mAdapter.notifyItemInserted(position);
     }
+
 
     public void removeItem(int position) {
         mExampleList.remove(position);
@@ -103,9 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void createExampleList() {
         mExampleList = new ArrayList<>();
-        mExampleList.add(new ExampleItem(R.drawable.ic_android, "Line 1", "Line 2"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Line 3", "Line 4"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Line 5", "Line 6"));
+        mExampleList.add(new ExampleItem(R.drawable.ic_android, "First Budget", ""));
     }
 
     public void buildRecyclerView() {
@@ -123,8 +151,16 @@ public class MainActivity extends AppCompatActivity {
 
                 //changeItem(position, "Clicked");
                 Intent intent = new Intent (MainActivity.this, MainActivity2.class);
+                String bud=mAdapter.getItem(position).getText1();
+                for(budget d:budgets){
+                    if(d.getName().equals(bud)){
+                        intent.putExtra("name",bud);
+                        intent.putExtra("costNames",d.getCostNames());
+                        intent.putExtra("costs",d.getCosts());
+                        break;
+                    }
+                }
                 startActivityForResult(intent,position);
-
             }
 
             @Override
@@ -133,6 +169,51 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void reinstateBudgets(){
+        for(budget d:budgets){
+            mExampleList.add(new ExampleItem(R.drawable.ic_android, d.getName(), ""));
+        }
+    }
+
+    public void readData(){
+        FileInputStream fis=null;
+
+        try {
+            fis = openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                Log.d("Here is the text",text);
+                String[] text1=text.split(",");
+                if (text1[0].equals("newBudget")){
+                    budgets.add(new budget(text1[1]));
+                }else{
+                    for(budget d:budgets){
+                        if(d.getName().equals(text1[0])){
+                            d.addCost(text1[1],Integer.parseInt(text1[2]));
+                        }
+                    }
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            if(fis!=null){
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        reinstateBudgets();
+
+    }
+
 
     /*public void setButtons() {
         buttonInsert = findViewById(R.id.floatingActionButton);
