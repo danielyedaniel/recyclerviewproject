@@ -97,11 +97,11 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     public int getItemCount() {
         return mExampleList.size();
     }
-<<<<<<< HEAD
+
     public ExampleItem getItem(int position) {
         return mExampleList.get(position);
     }
-=======
+
 
     public String getTitle(int position){
         ExampleItem currentItem = mExampleList.get(position);
@@ -109,5 +109,4 @@ public class ExampleAdapter extends RecyclerView.Adapter<ExampleAdapter.ExampleV
     }
 
 
->>>>>>> 5ec2d8ba797568761fafde91dbe0d7fccba2f2aa
 }

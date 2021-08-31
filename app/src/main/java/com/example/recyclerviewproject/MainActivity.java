@@ -117,17 +117,15 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
             mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
 
-<<<<<<< HEAD
         });
     }catch (Exception r){
             r.printStackTrace();
-=======
+
         int listSize = mAdapter.getItemCount() + 1;
         mExampleList.add( new ExampleItem(R.drawable.ic_android, "Budget " + listSize, "$0"));
         mAdapter.notifyDataSetChanged();
         mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);
 
->>>>>>> 5ec2d8ba797568761fafde91dbe0d7fccba2f2aa
 
     }
     }
@@ -145,13 +143,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void createExampleList() {
         mExampleList = new ArrayList<>();
-<<<<<<< HEAD
+
         mExampleList.add(new ExampleItem(R.drawable.ic_android, "First Budget", ""));
-=======
-        mExampleList.add(new ExampleItem(R.drawable.ic_android, "Budget 1", "$0"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_audio, "Budget 2", "$0"));
-        mExampleList.add(new ExampleItem(R.drawable.ic_sun, "Budget 3", "$0"));
->>>>>>> 5ec2d8ba797568761fafde91dbe0d7fccba2f2aa
+
     }
 
     public void buildRecyclerView() {
@@ -169,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
                 //changeItem(position, "Clicked");
                 Intent intent = new Intent (MainActivity.this, MainActivity2.class);
-<<<<<<< HEAD
                 String bud=mAdapter.getItem(position).getText1();
                 for(budget d:budgets){
                     if(d.getName().equals(bud)){
@@ -179,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-=======
+
                 String title = mAdapter.getTitle(position);
                 intent.putExtra("TITLE", title);
->>>>>>> 5ec2d8ba797568761fafde91dbe0d7fccba2f2aa
+
                 startActivityForResult(intent,position);
             }
 

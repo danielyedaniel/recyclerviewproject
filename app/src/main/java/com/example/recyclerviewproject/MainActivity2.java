@@ -135,7 +135,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-<<<<<<< HEAD
+
         initializeCosts();
     }
 
@@ -144,14 +144,8 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
             items.add(new Model(bud.getCostNames().get(i),String.valueOf(bud.getCosts().get(i))));
         }
         adapter.notifyItemAdded();
-=======
 
-        Intent i = getIntent();
-        String title = i.getStringExtra("TITLE");
-        //String test = "test";
-        ((TextView)findViewById(R.id.editName)).setText(title);
-        //((TextView)findViewById(R.id.editName)).setText(test);
->>>>>>> 5ec2d8ba797568761fafde91dbe0d7fccba2f2aa
+
     }
 
     private void setupViews() {
