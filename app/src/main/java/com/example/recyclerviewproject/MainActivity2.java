@@ -149,12 +149,6 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         try {
             for (int i = 0; i < bud.getCostNames().size(); i++) {
                 items.add(new Model(bud.getCostNames().get(i), String.valueOf(bud.getCosts().get(i))));
-                pieChart.addPieSlice(
-                        new PieModel(
-                                "R",
-                                Integer.parseInt(String.valueOf(items.get(i).getValue())),
-                                Color.parseColor(colors.get(i))));
-                totalAmount.add(bud.getCostNames().get(i));
             }
             adapter.notifyItemAdded();
         }catch (Exception e){
