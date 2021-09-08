@@ -24,9 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -140,10 +144,14 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
     }
 
     private void initializeCosts(){
-        for(int i=0;i<bud.getCostNames().size();i++){
-            items.add(new Model(bud.getCostNames().get(i),String.valueOf(bud.getCosts().get(i))));
+        try {
+            for (int i = 0; i < bud.getCostNames().size(); i++) {
+                items.add(new Model(bud.getCostNames().get(i), String.valueOf(bud.getCosts().get(i))));
+            }
+            adapter.notifyItemAdded();
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        adapter.notifyItemAdded();
 
 
     }
@@ -237,31 +245,50 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String readAllText(String fileName) throws Exception {
-        StringBuilder sb = new StringBuilder();
-        Files.lines(Paths.get(fileName)).forEach(sb::append);
-        return sb.toString();
+    public ArrayList<String> readAllText(String fileName) throws Exception {
+        FileInputStream fis=null;
+        ArrayList<String> change=new ArrayList<String>();
+
+        try {
+            fis = openFileInput(fileName);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                change.add(text);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
+        return change;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private String changeFile(ArrayList<String> changes) throws Exception {
-        String file = readAllText(fileName);
-        String[] arr = file.split("\n"); // every arr items is a line now.
-        StringBuilder sb = new StringBuilder();
-        for(String s : arr)
+    private ArrayList<String> changeFile(ArrayList<String> changes) throws Exception {
+        ArrayList<String> file = readAllText(fileName);
+        ArrayList<String> newFile=new ArrayList<String>();
+        for(String s : file)
         {
             String[] d=s.split(",");
             if(!d[0].equals(bud.getName())){
-                sb.append(s+"\n");
+                newFile.add(s+"\n");
+            }else{
+                Log.d("DELETED:",s);
             }
         }
-        return sb.toString(); //new file that does not contains that lines.
+        return newFile; //new file that does not contains that lines.
     }
 
-    public void writeAllText(String text, String fileout) {
+    public void writeAllText(ArrayList<String> newFile, String fileout) {
         try {
-            final FileOutputStream fos=openFileOutput(fileout,MODE_APPEND);
-            fos.write(text.getBytes());
+            FileOutputStream fos=openFileOutput(fileout,MODE_PRIVATE);
+            fos.write("".getBytes());
+            fos=openFileOutput(fileout,MODE_APPEND);
+            for(String s:newFile){
+                fos.write(s.getBytes());
+            }
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
