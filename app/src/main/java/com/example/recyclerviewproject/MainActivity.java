@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            mExampleList.add( new ExampleItem(R.drawable.ic_android, e.getText().toString() , "This is Line 2"));
+            mExampleList.add( new ExampleItem(R.drawable.ic_android, e.getText().toString() , "$0"));
             d.dismiss();
             mAdapter.notifyDataSetChanged();
             mRecyclerView=(RecyclerView) findViewById(R.id.recyclerView);

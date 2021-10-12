@@ -239,7 +239,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         // To animate the pie chart
         pieChart.startAnimation();
 
-        editName(v);
+        //editName(v);
 
 
 
@@ -312,7 +312,7 @@ public class MainActivity2 extends AppCompatActivity implements View.OnClickList
         intent.putExtra("MESSAGE",message);
         intent.putExtra("BUDGET",budget);
         setResult(2,intent);
-        //finish();//finishing activity
+        finish();//finishing activity
     }
 
     private void onItemUpdate() {

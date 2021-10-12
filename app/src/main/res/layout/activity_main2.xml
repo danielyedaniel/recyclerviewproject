@@ -112,8 +112,8 @@
                     android:id="@+id/totalAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text=" " />
+                    android:text="0"
+                    android:textSize="20dp" />
             </LinearLayout>
 
 
@@ -125,13 +125,11 @@
         android:id="@+id/buttonDataChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="11dp"
-        android:layout_marginLeft="11dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="89dp"
+        android:layout_marginRight="89dp"
         android:layout_marginBottom="11dp"
-        android:text="Apply Changes"
+        android:text="Load"
         app:layout_constraintBottom_toTopOf="@+id/cardViewGraph"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editName"
@@ -141,8 +139,8 @@
         android:id="@+id/editName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
@@ -154,6 +152,24 @@
         app:layout_constraintBottom_toTopOf="@+id/cardViewGraph"
         app:layout_constraintEnd_toStartOf="@+id/buttonDataChange"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="22dp"
+        android:onClick="editName"
+        android:text="Home"
+        app:backgroundTint="#4A4A4A"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewGraph"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonDataChange"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
